@@ -13,7 +13,7 @@
   },
   "license": "ISC",
   "engines": {
-    "node": ">=16.6.1"
+    "node": ">=16.0.0"
   },
   "jest": {
     "testEnvironment": "node",
@@ -22,13 +22,8 @@
     ]
   },
   "devDependencies": {
-    "chai": "^4.3.4",
     "cross-env": "^7.0.3",
-    "debug": "^4.3.3",
-    "dirty-chai": "^2.0.1",
-    "jest": "^27.3.1",
     "nodemon": "^2.0.15",
-    "supertest": "^6.1.6",
     "webpack": "^5.64.2"
   },
   "dependencies": {
