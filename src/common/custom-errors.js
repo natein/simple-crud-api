@@ -48,11 +48,19 @@ class NotFoundError extends CrudError {
   }
 }
 
+class JsonParseError extends CrudError {
+  constructor(message) {
+    super(message);
+    this.code = 400;
+  }
+}
+
 module.exports = {
   DatabaseIntegrityError,
   InvalidIdError,
   IdAlreadyExistError,
   NotFoundPersonError,
   NotFoundError,
-  NotContainRequiredFieldsError
+  NotContainRequiredFieldsError,
+  JsonParseError
 };

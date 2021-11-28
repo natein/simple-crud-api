@@ -1,7 +1,7 @@
 const Person = require('./person.model');
 const personService = require('./person.service');
 const uuid = require('uuid');
-const { InvalidIdError, NotContainRequiredFieldsError } 
+const { InvalidIdError, NotContainRequiredFieldsError, JsonParseError } 
   = require('../../common/custom-errors');
 
 // GET /pesron - get all persons
@@ -9,6 +9,7 @@ const { InvalidIdError, NotContainRequiredFieldsError }
 const getAllPersons = async (req, res) => {
   try {
     const persons = await personService.getAll();
+    res.setHeader("Content-Type", "application/json");
     res.statusCode = 200;
     res.end(JSON.stringify(persons));
   } catch(err) {
@@ -26,6 +27,7 @@ const getPerson = async (req, res) => {
     const personId = url.substring('./person'.length);
     if(uuid.validate(personId)) {
       const person = await personService.get(personId);
+      res.setHeader("Content-Type", "application/json");
       res.statusCode = 200;
       res.end(JSON.stringify(person));
     } else throw new InvalidIdError(personId);
@@ -45,10 +47,16 @@ const insertPerson = async (req, res) => {
   }).on('end', async () => {
     const body = Buffer.concat(data).toString();
     try {
-      const newPersonData = JSON.parse(body);
+      let newPersonData;
+      try {
+        newPersonData = JSON.parse(body);
+      } catch (err) {
+        throw new JsonParseError(err.message);
+      } 
       if(newPersonData.age === undefined || newPersonData.name === undefined 
         || newPersonData.hobbies === undefined) throw new NotContainRequiredFieldsError();
       const insertedPerson = await personService.insert(newPersonData);
+      res.setHeader("Content-Type", "application/json");
       res.statusCode = 201;
       res.end(JSON.stringify(insertedPerson));
     } catch(err) {
@@ -68,13 +76,20 @@ const updatePerson = async (req, res) => {
   }).on('end', async () => {
     const url = req.url;    
     const personId = url.substring('./person'.length);
-    const body = Buffer.concat(data).toString();
-    const newPersonData = JSON.parse(body);
+    const body = Buffer.concat(data).toString();  
     try {
+      let newPersonData;
+      try {
+        newPersonData = JSON.parse(body);
+      } catch(err) {
+        throw new JsonParseError(err.message);
+      }
+
       if(newPersonData.age === undefined || newPersonData.name === undefined 
         || newPersonData.hobbies === undefined) throw new NotContainRequiredFieldsError();
       if(uuid.validate(personId)) {
         const updatedPerson = await personService.update(personId, newPersonData);
+        res.setHeader("Content-Type", "application/json");
         res.statusCode = 200;
         res.end(JSON.stringify(updatedPerson));      
       } else throw new InvalidIdError(personId);
@@ -94,7 +109,7 @@ const deletePerson = async (req, res) => {
     const personId = url.substring('./person'.length);
     if(uuid.validate(personId)) {
       await personService.remove(personId);
-      console.log('прошли удаление записи');
+      res.setHeader("Content-Type", "application/json");
       res.statusCode = 204;
       res.end();
     } else throw new InvalidIdError(personId);

@@ -1,14 +1,6 @@
 const { DatabaseIntegrityError, IdAlreadyExistError } = require('./custom-errors');
-const Person = require('../resources/persons/person.model');
 
 let db = [];
-
-(() => {
-  db.push(new Person({name: "John Doe", age: 36, 
-    hobbies: ['swimming', 'walking']}));
-  db.push(new Person({name: "Natein", age: 100500, 
-    hobbies: ['swimming', 'walking', 'programming']}));
-})();
 
 const getAll = () => db;
 

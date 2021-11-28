@@ -9,7 +9,7 @@ const mapper = {
   PUT: personRoutes.updatePerson,
   DELETE: personRoutes.deletePerson
 }
-const port = PORT || 3000;
+const port = PORT || 4000;
  
 const server = http.createServer((req, res) => {
   const method = req.method;
