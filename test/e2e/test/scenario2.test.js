@@ -4,13 +4,11 @@ const debug = require('debug')('test:person');
 /*
 Сценарий 2
 
-GET-запросом получаем все объекты (ожидается пустой массив)
 POST-запросом в цикле создаём 3 новых объекта (ожидается ответ, 
   содержащий свежесозданный объект)
-GET-запросом получаем все объекты (ожидается массив с 3 объектами)
+
 DELETE-запросом в цикле удаляем все созданные объекты по id (ожидается 
   подтверждение успешного удаления)
-GET-запросом получаем все объекты (ожидается пустой массив)
 */
 
 const PERSONS_DATA = [
@@ -34,21 +32,6 @@ const PERSONS_DATA = [
 describe('Second scenario', () => {
   let request = unauthorizedRequest;
   let idArr = [];
-
-// GET-запросом получаем все объекты (ожидается пустой массив)
-
-  test('should get all persons', async () => {
-    const personResponse = await request
-      .get(routes.person.getAll)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .expect('Content-Type', /json/);
-    debug(personResponse.body);
-
-    expect(personResponse.status).to.equal(200);
-    expect(Array.isArray(personResponse.body)).to.be.true();
-    expect(personResponse.body.length).to.equal(0);
-  });
 
 // POST-запросом в цикле создаём 3 новых объекта (ожидается ответ, 
 // содержащий свежесозданный объект)
@@ -78,21 +61,6 @@ describe('Second scenario', () => {
     });
   });
 
-// GET-запросом получаем все объекты (ожидается массив с 3 объектами)
-
-  test('should get all persons', async () => {
-    const personResponse = await request
-      .get(routes.person.getAll)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .expect('Content-Type', /json/);
-    debug(personResponse.body);
-
-    expect(personResponse.status).to.equal(200);
-    expect(Array.isArray(personResponse.body)).to.be.true();
-    expect(personResponse.body.length).to.equal(3);
-  });
-
 // DELETE-запросом в цикле удаляем все созданные объекты по id (ожидается 
 // подтверждение успешного удаления)
 
@@ -101,21 +69,6 @@ describe('Second scenario', () => {
       const deleteResponse = await request.delete(routes.person.delete(item));
       expect(deleteResponse.status).to.equal(204);
     });
-  });
-
-// GET-запросом получаем все объекты (ожидается пустой массив)
-
-  test('should get all persons', async () => {
-    const personResponse = await request
-      .get(routes.person.getAll)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .expect('Content-Type', /json/);
-    debug(personResponse.body);
-
-    expect(personResponse.status).to.equal(200);
-    expect(Array.isArray(personResponse.body)).to.be.true();
-    expect(personResponse.body.length).to.equal(0);
   });
 
 });

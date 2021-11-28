@@ -37,7 +37,6 @@ describe('First scenario', () => {
 
     expect(personResponse.status).to.equal(200);
     expect(Array.isArray(personResponse.body)).to.be.true();
-    expect(personResponse.body.length).to.equal(0);
   });
 
 // POST-запросом создается новый объект (ожидается ответ, содержащий 
