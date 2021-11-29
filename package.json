@@ -1,0 +1,39 @@
+{
+  "name": "simple-crud-api",
+  "version": "1.0.0",
+  "repository": {
+    "url": "https://github.com/natein/simple-crud-api"
+  }, 
+  "description": "Simple CRUD API using in-memory database underneath",
+  "main": "src/server.js",
+  "scripts": {
+    "start:dev": "nodemon src/server.js",
+    "start:prod": "webpack && node ./dist/bundle.js",
+    "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand"
+  },
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.6.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./test/setup.js"
+    ]
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "cross-env": "^7.0.3",
+    "debug": "^4.3.3",
+    "dirty-chai": "^2.0.1",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.1.6",
+    "webpack": "^5.64.2",
+    "webpack-cli": "^4.9.1"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "uuid": "^8.3.2"
+  }
+}
